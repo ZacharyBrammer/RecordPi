@@ -29,7 +29,6 @@ while True:
     # Check if a card is available to read
     uid = pn532.read_passive_target(timeout=0.5)
     
-    print(".", end="")
     # Try again if no card is available.
     if uid is None:
         continue
@@ -59,3 +58,14 @@ while True:
 
 print(uid)
 pprint(cardData)
+
+# Decode string stored on card
+data = ""
+
+for block in cardData:
+  for byte in block:
+    if byte == "0x0":
+      break
+    data += chr(int(byte, 16))
+
+print(data)
